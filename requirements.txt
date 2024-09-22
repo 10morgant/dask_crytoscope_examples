@@ -1,0 +1,5 @@
+scapy
+sqlalchemy
+rich
+python-magic
+dash-cytoscape
