@@ -184,16 +184,18 @@ def display_tap_edge(data):
     State("cytoscape", "elements"),
 )
 def generate_stylesheet(node, follower_color, following_color, node_shape, elements):
-    default_layout = {"name": "cola"}
+    default_layout = {"name": "cose"}
     if not node:
         return default_stylesheet, elements, default_layout
 
+    # deselect all nodes
+    for element in elements:
+        if node.get('data').get("expanded") and element.get("data").get("expanded") == True:
+            element["data"]["expanded"] = False
+
     if node.get('data').get("expanded"):
-        for element in elements:
-            if node.get('data')["id"] == element.get("data").get("id"):
-                element["data"]["expanded"] = False
-                return default_stylesheet, elements, default_layout
-        return default_stylesheet, elements, default_layout
+        # return default_stylesheet, elements, default_layout
+        pass
     else:
         for element in elements:
             if node.get('data')["id"] == element.get("data").get("id"):
@@ -334,7 +336,7 @@ def generate_stylesheet(node, follower_color, following_color, node_shape, eleme
                 parent_position = next((n.get("position") for n in elements if n["data"]["id"] == parent_id), None)
         # parent_position = node.get("position")
         if parent_position:
-            print(parent_id, parent_position)
+            # print(parent_id, parent_position)
             num_children = len(children) + random.randint(0, 2)  # Add some randomness to the number of children
             if num_children == 0:
                 continue
@@ -356,7 +358,7 @@ def generate_stylesheet(node, follower_color, following_color, node_shape, eleme
                             "x": parent_position["x"] + x_offset,
                             "y": parent_position["y"] + y_offset,
                         }
-                        print(f"\t {parent_id} -> {child_id}: {new_pos}")
+                        # print(f"\t {parent_id} -> {child_id}: {new_pos}")
                         n["position"] = new_pos
                         nodes_already_changed.add(child_id)
                         if parent_id == node.get("data").get("id"):
